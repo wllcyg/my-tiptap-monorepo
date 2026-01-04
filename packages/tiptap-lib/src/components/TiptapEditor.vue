@@ -4,22 +4,22 @@
     'tiptap-fullscreen-wrapper': fullScreen,
     'tiptap-normal-wrapper': !fullScreen,
   }">
-    <!-- 全屏沉浸式写作模式 -->
-    <div v-if="fullScreen" class="tiptap-fullscreen-content">
-      <EditorContent :editor="editor" class="tiptap-prosemirror" />
-    </div>
-
     <!-- 普通模式（带边框容器） -->
-    <div v-else class="tiptap-normal-container">
+    <div class="tiptap-normal-container">
+      <ToolBar />
       <EditorContent :editor="editor" class="tiptap-prosemirror" />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { watch, onBeforeUnmount, onMounted, nextTick } from "vue";
+import { ref, watch, onBeforeUnmount, onMounted, nextTick } from "vue";
 import { useEditor, EditorContent } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
+import ToolBar from "./ToolBar.vue";
+import { provideTiptapEditor } from "../composables/useTiptapEditor";
+
+// 提供 editor 实例
 const props = defineProps({
   modelValue: {
     type: String,
@@ -44,7 +44,7 @@ const props = defineProps({
 const emit = defineEmits(["update:modelValue"]);
 
 const editor = useEditor({
-  
+
   editorProps: {
     attributes: {
       autocomplete: "off",
@@ -78,7 +78,7 @@ onMounted(async () => {
   }
   // 空内容时默认在 start，已有光标闪烁
 });
-
+provideTiptapEditor(editor);
 watch(
   () => props.modelValue,
   (val) => {
