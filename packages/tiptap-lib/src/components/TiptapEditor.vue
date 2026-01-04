@@ -6,7 +6,7 @@
   }">
     <!-- 普通模式（带边框容器） -->
     <div class="tiptap-normal-container">
-      <ToolBar />
+      <ToolBar :tools="tools" />
       <EditorContent :editor="editor" class="tiptap-prosemirror" />
     </div>
   </div>
@@ -18,6 +18,7 @@ import { useEditor, EditorContent } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
 import ToolBar from "./ToolBar.vue";
 import { provideTiptapEditor } from "../composables/useTiptapEditor";
+import { ToolbarItemType } from "../types/toolbar";
 
 // 提供 editor 实例
 const props = defineProps({
@@ -39,6 +40,11 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  /** 自定义工具栏配置 */
+  tools: {
+    type: Array as () => ToolbarItemType[],
+    default: undefined
+  }
 });
 
 const emit = defineEmits(["update:modelValue"]);
