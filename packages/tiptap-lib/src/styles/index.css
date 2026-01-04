@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 推荐安装 @tailwindcss/typography 并引入 */
+@import 'tailwindcss/typography';
+
+.tiptap {
+  @apply prose prose-lg max-w-none focus:outline-none;
+  /* 可根据需要自定义更多 */
+}
