@@ -1,18 +1,14 @@
 <script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue'
-import { TestButton } from '@myorg/tiptap-lib'
+import TiptapEditor from '@myorg/tiptap-lib'
+import { ref } from 'vue'
+const content = ref('<p>Hello Tiptap!</p>')
 </script>
 
 <template>
   <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
+    <TiptapEditor v-model="content" class="w-full"/>
   </div>
-  <TestButton />
 </template>
 
 <style scoped>
