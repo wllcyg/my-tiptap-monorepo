@@ -1,7 +1,7 @@
 <template>
   <div
     class="tiptap-toolbar px-6 py-3 border-b border-gray-300 dark:border-gray-700 bg-white/80 dark:bg-gray-900/80 backdrop-blur">
-    <n-space align="center" :size="16">
+    <n-space align="center" :size="[4, 16]">
       <!-- 左侧工具按钮 -->
       <component v-for="(toolKey, index) in resolvedTools" :is="getComponent(toolKey)"
         :key="`tool-${toolKey}-${index}`" />
@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { NSpace, NTooltip, NButton } from "naive-ui";
+import { NSpace } from "naive-ui";
 import { ToolbarItemType, DEFAULT_TOOLS } from '../types/toolbar'
 // ==================== 导入按钮组件 ====================
 import UndoButton from "./buttons/UndoButton.vue";

@@ -1,19 +1,17 @@
 <template>
-  <n-tooltip>
-    <template #trigger>
-      <n-button text size="large" :disabled="!canRedo" class="toolbar-btn" @click="redo">
-        <icon-redo class="w-5 h-5" />
-        <span class="ml-1 hidden sm:inline">重做</span>
-      </n-button>
-    </template>
-    重做 (Ctrl+Y)
-  </n-tooltip>
+  <n-button text size="large" :disabled="!canRedo" class="toolbar-btn" @click="redo">
+    <n-icon size="20">
+      <ArrowRedo />
+    </n-icon>
+  </n-button>
+
 </template>
 
 <script setup lang="ts">
 import { useTiptapEditor } from "../../composables";
 import { computed } from "vue";
-import { NTooltip, NButton } from "naive-ui";
+import { NTooltip, NButton, NIcon } from "naive-ui";
+import { ArrowRedo } from '@vicons/ionicons5'
 
 const editorRef = useTiptapEditor();
 const editor = computed(() => editorRef.value);
