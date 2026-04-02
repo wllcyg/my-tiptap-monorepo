@@ -23,7 +23,10 @@
       "require": "./dist/tiptap-lib.umd.cjs",
       "types": "./src/index.ts"
     },
-    "./style.css": "./dist/style.css"
+    "./style.css": {
+      "development": "./src/styles/index.css",
+      "default": "./dist/style.css"
+    }
   },
   "files": [
     "dist"

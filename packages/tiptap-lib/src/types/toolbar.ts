@@ -7,6 +7,7 @@
 export type ToolbarItemType =
     | 'undo'
     | 'redo'
+    | 'paragraph' // 正文
     | 'bold'
     | 'italic'
     | 'underline'
@@ -41,6 +42,7 @@ export const DEFAULT_TOOLS: ToolbarItemType[] = [
     // 'underline', // StarterKit 不包含 underline，需单独引入 Underline 扩展
     // 'strike',
     'divider',
+    'paragraph',
     'h1',
     'h2',
     'h3',

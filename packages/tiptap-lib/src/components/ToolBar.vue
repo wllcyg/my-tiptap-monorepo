@@ -1,26 +1,62 @@
 <template>
   <div
-    class="tiptap-toolbar px-6 py-3 border-b border-gray-300 dark:border-gray-700 bg-white/80 dark:bg-gray-900/80 backdrop-blur">
+    class="tiptap-toolbar px-6 py-3 border-b border-gray-300 dark:border-gray-700 bg-white/80 dark:bg-gray-900/80 backdrop-blur"
+  >
     <n-space align="center" :size="[4, 16]">
       <!-- 左侧工具按钮 -->
-      <component v-for="(toolKey, index) in resolvedTools" :is="getComponent(toolKey)"
-        :key="`tool-${toolKey}-${index}`" />
+      <component
+        v-for="(toolKey, index) in resolvedTools"
+        :is="getComponent(toolKey)"
+        :key="`tool-${toolKey}-${index}`"
+      />
     </n-space>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, defineComponent, h } from "vue";
 import { NSpace } from "naive-ui";
-import { ToolbarItemType, DEFAULT_TOOLS } from '../types/toolbar'
+import { ToolbarItemType, DEFAULT_TOOLS } from "../types/toolbar";
 // ==================== 导入按钮组件 ====================
 import UndoButton from "./buttons/UndoButton.vue";
 import RedoButton from "./buttons/RedoButton.vue";
+import BoldButton from "./buttons/BoldButton.vue";
+import ItalicButton from "./buttons/ItalicButton.vue";
+import ParagraphButton from "./buttons/ParagraphButton.vue";
+import HeadingButton from "./buttons/HeadingButton.vue";
+import BulletListButton from "./buttons/BulletListButton.vue";
+import OrderedListButton from "./buttons/OrderedListButton.vue";
+import BlockquoteButton from "./buttons/BlockquoteButton.vue";
+import CodeBlockButton from "./buttons/CodeBlockButton.vue";
+import HorizontalRuleButton from "./buttons/HorizontalRuleButton.vue";
+import DividerButton from "./buttons/DividerButton.vue";
+
+// h1-h6 工厂：为 HeadingButton 注入不同 level
+const createHeading = (level: 1 | 2 | 3 | 4 | 5 | 6) =>
+  defineComponent({
+    name: `H${level}Button`,
+    render: () => h(HeadingButton, { level }),
+  });
 
 // ==================== 映射表 ====================
 const toolMapBase = {
   undo: UndoButton,
   redo: RedoButton,
+  bold: BoldButton,
+  italic: ItalicButton,
+  paragraph: ParagraphButton,
+  h1: createHeading(1),
+  h2: createHeading(2),
+  h3: createHeading(3),
+  h4: createHeading(4),
+  h5: createHeading(5),
+  h6: createHeading(6),
+  bulletList: BulletListButton,
+  orderedList: OrderedListButton,
+  blockquote: BlockquoteButton,
+  codeBlock: CodeBlockButton,
+  horizontalRule: HorizontalRuleButton,
+  divider: DividerButton,
 } as const;
 
 // 关键：强制断言为完整映射，解决索引报错
@@ -30,7 +66,9 @@ const toolMap = toolMapBase as Record<ToolbarItemType, any>;
 const getComponent = (key: ToolbarItemType): any => {
   const component = toolMap[key];
   if (!component && process.env.NODE_ENV === "development") {
-    console.warn(`[Tiptap Toolbar] 未注册的工具: "${key}"，已跳过渲染。请在 toolMapBase 中添加对应组件。`);
+    console.warn(
+      `[Tiptap Toolbar] 未注册的工具: "${key}"，已跳过渲染。请在 toolMapBase 中添加对应组件。`,
+    );
   }
   return component || null;
 };
@@ -55,13 +93,27 @@ const resolvedTools = computed<ToolbarItemType[]>(() => {
   top: 0;
   z-index: 30;
   backdrop-filter: blur(12px);
+  margin-top: 12px;
 }
 
-:deep(.n-button--text-type.is-active) {
-  @apply bg-slate-200 dark:bg-gray-700 text-slate-900 dark:text-white font-semibold rounded;
+/* 使用更高的优先级覆盖 Naive UI 的初始背景色 */
+:deep(.n-button.is-active) {
+  background-color: #cbd5e1 !important; /* slate-300 for light */
+  color: #0f172a !important; /* slate-900 */
+  font-weight: 600 !important;
+  border-radius: 6px !important;
 }
 
-:deep(.n-button--text-type:hover:not([disabled])) {
-  @apply bg-slate-100 dark:bg-gray-800;
+.dark :deep(.n-button.is-active) {
+  background-color: #3f3f46 !important; /* zinc-700 for dark */
+  color: #ffffff !important;
+}
+
+:deep(.n-button:hover:not([disabled])) {
+  background-color: #f1f5f9 !important; /* slate-100 */
+}
+
+.dark :deep(.n-button:hover:not([disabled])) {
+  background-color: #1f2937 !important; /* gray-800 */
 }
 </style>
