@@ -16,7 +16,8 @@
 <script setup lang="ts">
 import { computed, defineComponent, h } from "vue";
 import { NSpace } from "naive-ui";
-import { ToolbarItemType, DEFAULT_TOOLS } from "../types/toolbar";
+import type { ToolbarItemType } from "../types/toolbar";
+import { DEFAULT_TOOLS } from "../types/toolbar";
 // ==================== 导入按钮组件 ====================
 import UndoButton from "./buttons/UndoButton.vue";
 import RedoButton from "./buttons/RedoButton.vue";
@@ -65,7 +66,7 @@ const toolMap = toolMapBase as Record<ToolbarItemType, any>;
 // 运行时安全获取组件
 const getComponent = (key: ToolbarItemType): any => {
   const component = toolMap[key];
-  if (!component && process.env.NODE_ENV === "development") {
+  if (!component && typeof process !== "undefined" && process.env?.NODE_ENV === "development") {
     console.warn(
       `[Tiptap Toolbar] 未注册的工具: "${key}"，已跳过渲染。请在 toolMapBase 中添加对应组件。`,
     );

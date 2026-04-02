@@ -20,7 +20,7 @@ import StarterKit from "@tiptap/starter-kit";
 
 import ToolBar from "./ToolBar.vue";
 import { provideTiptapEditor } from "../composables/useTiptapEditor";
-import { ToolbarItemType } from "../types/toolbar";
+import type { ToolbarItemType } from "../types/toolbar";
 import type { Extension } from "@tiptap/core";
 
 const props = defineProps({

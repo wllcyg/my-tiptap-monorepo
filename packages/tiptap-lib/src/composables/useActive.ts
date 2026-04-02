@@ -1,4 +1,4 @@
-import { ref, onMounted, onBeforeUnmount, unref } from 'vue'
+import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useTiptapEditor } from './useTiptapEditor'
 
 export function useActive(name: string, options?: any) {

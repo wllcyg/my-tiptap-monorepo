@@ -1,5 +1,6 @@
 // packages/tiptap-lib/src/composables/useTiptapEditor.ts
-import { inject, provide, readonly, Ref } from 'vue'
+import { inject, provide, readonly } from 'vue'
+import type { Ref } from 'vue'
 import type { Editor } from '@tiptap/vue-3'
 
 const TiptapEditorSymbol = Symbol('tiptap-editor')

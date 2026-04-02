@@ -11,7 +11,7 @@
 <script setup lang="ts">
 import { useTiptapEditor } from "../../composables";
 import { computed } from "vue";
-import { NTooltip, NButton, NIcon } from "naive-ui";
+import { NButton, NIcon } from "naive-ui";
 import { ArrowUndo } from '@vicons/ionicons5'
 const editorRef = useTiptapEditor();
 const editor = computed(() => editorRef.value);
