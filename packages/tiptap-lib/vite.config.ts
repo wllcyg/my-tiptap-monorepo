@@ -11,8 +11,6 @@ export default defineConfig({
       insertTypesEntry: true,   // 自动在 package.json 中写入 "types": "dist/index.d.ts"
       rollupTypes: true,        // 生成合并的完整声明文件（推荐）
       include: ['src'],
-      // 可选：提高类型准确性
-      skipDiagnostics: false,
     }),
   ],
 
