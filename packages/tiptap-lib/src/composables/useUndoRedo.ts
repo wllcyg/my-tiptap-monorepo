@@ -50,8 +50,8 @@ export function useUndoRedo(options: UseUndoRedoOptions) {
         if (!instance) return false
 
         return action === 'undo'
-            ? instance.can().undo()
-            : instance.can().redo()
+            ? ((instance.can() as any)?.undo?.() ?? false)
+            : ((instance.can() as any)?.redo?.() ?? false)
     })
 
     /**
@@ -71,9 +71,10 @@ export function useUndoRedo(options: UseUndoRedoOptions) {
         if (!instance) return
 
         if (action === 'undo') {
-            instance.chain().focus().undo().run()
+            // chain() 的返回类型在不同版本的 tiptap 中可能不同，使用 any 做最小修复
+            (instance.chain() as any).focus().undo().run()
         } else {
-            instance.chain().focus().redo().run()
+            ;(instance.chain() as any).focus().redo().run()
         }
 
         onExecuted?.()

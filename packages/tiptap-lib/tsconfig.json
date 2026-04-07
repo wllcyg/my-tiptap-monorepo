@@ -7,6 +7,7 @@
 
     "outDir": "dist",
     "rootDir": "src",
+    "types": ["node"],
 
     "declaration": true, // 必须为 true（生成 .d.ts）
     "declarationMap": true,
