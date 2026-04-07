@@ -108,12 +108,12 @@ export async function getMockSTSToken(): Promise<STSResponse> {
 export const COS_CONFIG = {
   // 存储桶名称，格式：BucketName-APPID
   // 示例：'my-bucket-1234567890'
-  Bucket: import.meta.env.VITE_COS_BUCKET || 'demo-bucket-1234567890',
-  
+  Bucket: import.meta.env.VITE_COS_BUCKET || 'wll-1258475753',
+
   // 存储桶所在地域
   // 可选值：ap-beijing, ap-shanghai, ap-guangzhou, ap-chengdu 等
   Region: import.meta.env.VITE_COS_REGION || 'ap-guangzhou',
-  
+
   // 上传文件的目录前缀（可选）
   Prefix: import.meta.env.VITE_COS_PREFIX || 'editor-images',
 };
