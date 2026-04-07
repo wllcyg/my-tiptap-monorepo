@@ -15,6 +15,7 @@
 import { watch, onMounted, onBeforeUnmount, nextTick, computed } from "vue";
 import { useEditor, EditorContent } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
+import Heading from "@tiptap/extension-heading";
 // 可选：空内容占位提示
 // import Placeholder from "@tiptap/extension-placeholder";
 
@@ -63,12 +64,17 @@ const editor = useEditor({
       autocorrect: "off",
       autocapitalize: "off",
       "aria-label": "Main content area, start typing to enter text.",
-      class: "simple-editor",
+      class: "simple-editor prose dark:prose-invert max-w-none focus:outline-none",
     },
   },
   content: props.modelValue,
   extensions: [
-    StarterKit.configure({}),
+    StarterKit.configure({
+      heading: false, // 禁用默认的 heading 扩展
+    }),
+    Heading.configure({
+      levels: [1, 2, 3, 4, 5, 6], // 根据文档明确支持所有的 h1-h6 标签
+    }),
     // Placeholder.configure({ placeholder: "开始书写..." }), // 需要时取消注释
     ...props.extensions,
   ],
@@ -151,6 +157,141 @@ defineExpose({ editor });
     p {
       min-height: 1.5em;
       margin: 0.5em 0;
+    }
+
+    /* ===== Heading 样式 ===== */
+    h1, h2, h3, h4, h5, h6 {
+      line-height: 1.3;
+      font-weight: 700;
+      margin-top: 1em;
+      margin-bottom: 0.5em;
+      color: inherit;
+    }
+
+    h1 {
+      font-size: 2em;
+    }
+
+    h2 {
+      font-size: 1.5em;
+    }
+
+    h3 {
+      font-size: 1.25em;
+    }
+
+    h4 {
+      font-size: 1.125em;
+    }
+
+    h5 {
+      font-size: 1em;
+      font-weight: 600;
+    }
+
+    h6 {
+      font-size: 0.875em;
+      font-weight: 600;
+    }
+
+    /* ===== List 样式 ===== */
+    ul, ol {
+      padding-left: 1.5rem;
+      margin: 0.75em 0;
+    }
+
+    ul {
+      list-style-type: disc;
+    }
+
+    ol {
+      list-style-type: decimal;
+    }
+
+    li {
+      margin: 0.25em 0;
+      padding-left: 0.25em;
+    }
+
+    /* 嵌套列表 */
+    ul ul, ol ul {
+      list-style-type: circle;
+      margin: 0.25em 0;
+    }
+
+    ul ul ul, ol ul ul {
+      list-style-type: square;
+    }
+
+    ol ol, ul ol {
+      list-style-type: lower-alpha;
+      margin: 0.25em 0;
+    }
+
+    ol ol ol, ul ol ol {
+      list-style-type: lower-roman;
+    }
+
+    /* ===== Blockquote 样式 ===== */
+    blockquote {
+      border-left: 3px solid #d1d5db;
+      padding-left: 1rem;
+      margin: 1em 0;
+      color: #6b7280;
+    }
+
+    /* ===== Code Block 样式 ===== */
+    pre {
+      background: #f3f4f6;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin: 1em 0;
+      overflow-x: auto;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.875em;
+      line-height: 1.5;
+    }
+
+    code {
+      background: #f3f4f6;
+      padding: 0.125rem 0.375rem;
+      border-radius: 0.25rem;
+      font-size: 0.875em;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    pre code {
+      background: transparent;
+      padding: 0;
+      border-radius: 0;
+      font-size: inherit;
+    }
+
+    /* ===== Horizontal Rule 样式 ===== */
+    hr {
+      border: none;
+      border-top: 2px solid #e5e7eb;
+      margin: 2em 0;
+    }
+
+    /* ===== Dark Mode 适配 ===== */
+    .dark & {
+      blockquote {
+        border-left-color: #4b5563;
+        color: #9ca3af;
+      }
+
+      pre {
+        background: #1f2937;
+      }
+
+      code {
+        background: #1f2937;
+      }
+
+      hr {
+        border-top-color: #374151;
+      }
     }
   }
 }

@@ -1,0 +1,68 @@
+import type { Uploader, UploaderOptions, UploadResult } from "../../../types/uploader";
+
+/**
+ * 阿里云 OSS 配置
+ */
+export interface OSSConfig {
+  /** Bucket 名称 */
+  bucket: string;
+  /** 地域，如 oss-cn-hangzhou */
+  region: string;
+  /** 访问域名 */
+  endpoint?: string;
+  /** 可选：前缀（目录） */
+  prefix?: string;
+  /** SDK 实例 */
+  ossInstance?: any;
+}
+
+/**
+ * 阿里云 OSS 上传适配器
+ */
+export class OSSUploader implements Uploader {
+  private client: any;
+  private config: OSSConfig;
+
+  constructor(config: OSSConfig) {
+    this.config = config;
+    this.client = config.ossInstance;
+
+    if (!this.client) {
+      console.warn("OSSUploader: No OSS instance provided. Please ensure 'ali-oss' is available or passed in.");
+    }
+  }
+
+  async upload(file: File, options?: UploaderOptions): Promise<UploadResult> {
+    if (!this.client) {
+      throw new Error("OSS SDK instance is required for uploading.");
+    }
+
+    const { prefix = "" } = this.config;
+    const fileName = options?.fileName || `${Date.now()}-${file.name}`;
+    const name = prefix ? `${prefix.replace(/\/$/, "")}/${fileName}` : fileName;
+
+    try {
+      const result = await this.client.put(name, file, {
+        progress: (p: number) => {
+          if (options?.onProgress) {
+            options.onProgress({
+              percent: Math.floor(p * 100),
+              loaded: Math.floor(p * file.size),
+              total: file.size,
+            });
+          }
+        },
+      });
+
+      return {
+        url: result.url,
+        name: fileName,
+        size: file.size,
+        type: file.type,
+      };
+    } catch (error) {
+      console.error("OSS upload error:", error);
+      throw error;
+    }
+  }
+}
