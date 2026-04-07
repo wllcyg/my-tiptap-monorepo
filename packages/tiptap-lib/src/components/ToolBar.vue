@@ -66,6 +66,7 @@ const toolMap = toolMapBase as Record<ToolbarItemType, any>;
 // 运行时安全获取组件
 const getComponent = (key: ToolbarItemType): any => {
   const component = toolMap[key];
+  // @ts-ignore
   if (!component && typeof process !== "undefined" && process.env?.NODE_ENV === "development") {
     console.warn(
       `[Tiptap Toolbar] 未注册的工具: "${key}"，已跳过渲染。请在 toolMapBase 中添加对应组件。`,
