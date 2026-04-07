@@ -70,7 +70,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { TiptapEditor, ImageUpload, UploaderFactory } from '@myorg/tiptap-lib';
+import { TiptapEditor, createImageUploadExtension } from '@myorg/tiptap-lib';
 import type { Uploader, UploaderOptions, UploadResult } from '@myorg/tiptap-lib';
 
 const content = ref('<p>在这里粘贴或拖拽图片试试！</p>');
@@ -175,9 +175,7 @@ const extensions = computed(() => {
   if (!currentUploader) return [];
   
   return [
-    ImageUpload.configure({ 
-      uploader: currentUploader 
-    })
+    createImageUploadExtension(currentUploader)
   ];
 });
 </script>
