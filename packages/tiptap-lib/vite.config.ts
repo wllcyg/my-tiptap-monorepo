@@ -30,13 +30,11 @@ export default defineConfig({
     },
 
     rollupOptions: {
-      // 外部化 peerDependencies（不打包进库）
+      // 外部化 peerDependencies（不打包进库）以及所有相关的核心依赖
       external: [
         'vue',
-        '@tiptap/core',
-        '@tiptap/vue-3',
-        '@tiptap/starter-kit',
-        // 如果后续添加了其他 tiptap 扩展作为 dependency，也可加在这里
+        /^@tiptap\//,
+        /^prosemirror-/,
       ],
 
       output: {
