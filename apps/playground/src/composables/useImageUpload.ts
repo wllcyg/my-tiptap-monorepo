@@ -2,7 +2,7 @@ import { ref, onMounted } from 'vue';
 import COS from 'cos-js-sdk-v5';
 import { UploaderFactory, createImageUploadExtension } from '@myorg/tiptap-lib';
 import type { Uploader } from '@myorg/tiptap-lib';
-import { getMockSTSToken, COS_CONFIG } from '../services/sts-mock';
+import { COS_CONFIG } from '../services/sts-mock';
 
 /**
  * 图片上传 Composable
@@ -27,7 +27,7 @@ export function useImageUpload() {
 
       // 1. 创建 COS 实例
       const cosOptions: any = {};
-      
+
       // 优先从环境变量读取真实密钥（仅用于开发测试）
       const secretId = import.meta.env.VITE_COS_SECRET_ID;
       const secretKey = import.meta.env.VITE_COS_SECRET_KEY;
@@ -38,17 +38,24 @@ export function useImageUpload() {
         cosOptions.SecretKey = secretKey;
       } else {
         // 使用临时密钥方式（推荐）
-        console.log('🔑 未发现真实密钥，将使用模拟 STS 方式');
+        console.log('🔑 未发现真实密钥，将从真实后端获取临时密钥...');
         cosOptions.getAuthorization = async (_options: any, callback: any) => {
           try {
             console.log('🔑 获取临时密钥...');
-            const data = await getMockSTSToken();
-            
+            const res = await fetch('https://1258475753-fq2a4nc48v.ap-guangzhou.tencentscf.com/token');
+            const data = await res.json();
+            const credentials = data.Response.Credentials;
+            console.log('🔑 获取临时密钥...', credentials);
+
             callback({
-              TmpSecretId: data.credentials.tmpSecretId,
-              TmpSecretKey: data.credentials.tmpSecretKey,
-              SecurityToken: data.credentials.sessionToken,
-              ExpiredTime: data.expiredTime,
+              TmpSecretId: credentials.TmpSecretId,
+              TmpSecretKey: credentials.TmpSecretKey,
+              SecurityToken: credentials.Token,
+              // 建议返回服务器时间作为签名的开始时间，避免客户端本地时间偏差过大导致签名错误
+              // 如果后端接口没返回 StartTime，我们尝试取当前时间或从 ExpiredTime 倒推（一般有效期 30-60 分钟）
+              StartTime: data.Response.StartTime || Math.floor(Date.now() / 1000),
+              ExpiredTime: data.Response.ExpiredTime,
+              ScopeLimit: true, // 细粒度控制权限，设为 true 会限制密钥只在相同请求时重复使用
             });
           } catch (err) {
             console.error('❌ 获取临时密钥失败:', err);
@@ -74,7 +81,7 @@ export function useImageUpload() {
 
       isReady.value = true;
       error.value = null;
-      
+
       console.log('✅ 图片上传功能初始化完成');
       console.log('💡 现在可以粘贴（Ctrl+V）或拖拽图片到编辑器了');
     } catch (err) {
