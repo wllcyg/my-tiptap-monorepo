@@ -1,7 +1,7 @@
-import type { Uploader, COSConfig, UploadResult, UploadProgress, OnProgress, UploaderOptions } from "../../types/uploader";
-export type { Uploader, COSConfig, UploadResult, UploadProgress, OnProgress, UploaderOptions };
+import type { Uploader, COSConfig, OSSConfig, UploadResult, UploadProgress, OnProgress, UploaderOptions } from "../../types/uploader";
+export type { Uploader, COSConfig, OSSConfig, UploadResult, UploadProgress, OnProgress, UploaderOptions };
 import { COSUploader } from "./adapters/cos";
-import { OSSUploader, type OSSConfig } from "./adapters/oss";
+import { OSSUploader } from "./adapters/oss";
 
 export type ProviderType = "cos" | "oss";
 

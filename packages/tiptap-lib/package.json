@@ -58,7 +58,11 @@
     "vite-plugin-dts": "^4.5.4"
   },
   "dependencies": {
+    "@tiptap/extension-dropcursor": "^2.2.0",
+    "@tiptap/extension-file-handler": "^2.27.2",
     "@tiptap/extension-heading": "^2.27.1",
-    "@vicons/ionicons5": "^0.13.0"
+    "@tiptap/extension-image": "^2.2.0",
+    "@vicons/ionicons5": "^0.13.0",
+    "cos-js-sdk-v5": "^1.8.5"
   }
 }

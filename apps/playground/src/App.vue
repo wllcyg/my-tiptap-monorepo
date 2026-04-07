@@ -1,19 +1,33 @@
 <script setup lang="ts">
 import TiptapEditor from "@myorg/tiptap-lib";
 import { ref, computed } from "vue";
+import { useImageUpload } from "./composables/useImageUpload";
 
 const content = ref(
-  "<p>Hello Tiptap! 🚀</p><p>这是一个 <strong>富文本编辑器</strong> 演示。试试工具栏中的各种功能吧！</p>",
+  "<p>Hello Tiptap! 🚀</p><p>这是一个 <strong>富文本编辑器</strong> 演示。试试工具栏中的各种功能吧！</p><p>💡 <em>提示：你可以粘贴（Ctrl+V）或拖拽图片到编辑器中上传图片</em></p>",
 );
 const showPreview = ref(true);
 const wordCount = computed(() => {
   const text = content.value.replace(/<[^>]*>/g, "").trim();
   return text.length;
 });
+
+// 图片上传功能
+const {
+  isReady: uploadReady,
+  error: uploadError,
+  getExtension,
+} = useImageUpload();
+
+// 扩展配置
+const extensions = computed(() => {
+  const ext = getExtension();
+  return ext ? [ext] : [];
+});
 </script>
 
 <template>
-  <div class="app-root">
+  <div class="app-root" @dragover.prevent @drop.prevent>
     <!-- 顶部导航 -->
     <header class="app-header">
       <div class="header-content">
@@ -36,6 +50,20 @@ const wordCount = computed(() => {
 
     <!-- 主内容区 -->
     <main class="app-main">
+      <!-- 上传状态提示 -->
+      <div v-if="uploadError" class="upload-error">
+        <span class="error-icon">⚠️</span>
+        <span>图片上传功能初始化失败: {{ uploadError }}</span>
+      </div>
+      <div v-else-if="!uploadReady" class="upload-loading">
+        <span class="loading-spinner">⏳</span>
+        <span>正在初始化图片上传功能...</span>
+      </div>
+      <div v-else class="upload-success">
+        <span class="success-icon">✅</span>
+        <span>图片上传已就绪 - 支持粘贴和拖拽上传</span>
+      </div>
+
       <div class="editor-panel" :class="{ 'full-width': !showPreview }">
         <div class="panel-header">
           <span class="panel-dot red"></span>
@@ -43,7 +71,15 @@ const wordCount = computed(() => {
           <span class="panel-dot green"></span>
           <span class="panel-title">编辑器</span>
         </div>
-        <TiptapEditor v-model="content" />
+        <TiptapEditor
+          v-if="uploadReady"
+          v-model="content"
+          :extensions="extensions"
+        />
+        <div v-else class="editor-placeholder">
+          <span class="placeholder-spinner">⏳</span>
+          <span>正在加载编辑器...</span>
+        </div>
       </div>
 
       <Transition name="slide">
@@ -166,8 +202,108 @@ const wordCount = computed(() => {
   margin: 0 auto;
   padding: 2rem;
   display: flex;
-  gap: 1.5rem;
+  flex-direction: column;
+  gap: 1rem;
   align-items: flex-start;
+}
+
+/* ====== Upload Status ====== */
+.upload-error,
+.upload-loading,
+.upload-success {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.upload-error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #fca5a5;
+}
+
+.upload-loading {
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: #93c5fd;
+}
+
+.upload-success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #86efac;
+}
+
+.error-icon,
+.success-icon {
+  font-size: 1.1rem;
+}
+
+.loading-spinner {
+  font-size: 1.1rem;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ====== Editor Container ====== */
+.editor-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 400px;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.placeholder-spinner {
+  font-size: 1.2rem;
+  animation: spin 2s linear infinite;
+}
+
+.app-main > .editor-panel {
+  width: 100%;
+}
+
+.app-main {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.app-main > .upload-error,
+.app-main > .upload-loading,
+.app-main > .upload-success {
+  flex: 1 1 100%;
+}
+
+.app-main > .editor-panel,
+.app-main > .preview-panel {
+  flex: 1 1 auto;
 }
 
 /* ====== Panels ====== */

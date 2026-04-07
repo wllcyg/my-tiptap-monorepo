@@ -45,6 +45,28 @@ export interface COSConfig {
   SecretId?: string;
   SecretKey?: string;
   SecurityToken?: string;
+  /** 获取临时密钥的回调函数 */
+  getAuthorization?: (options: any, callback: (data: any) => void) => void | Promise<void>;
   /** 如果使用 SDK 实例，则直接传入 */
   cosInstance?: any;
+}
+
+/**
+ * 阿里云 OSS 配置
+ */
+export interface OSSConfig {
+  /** 存储桶名称 */
+  bucket: string;
+  /** 地域，如 oss-cn-hangzhou */
+  region: string;
+  /** 访问域名（可选） */
+  endpoint?: string;
+  /** 可选：前缀（目录） */
+  prefix?: string;
+  /** 获取临时密钥的回调或密钥对象 */
+  accessKeyId?: string;
+  accessKeySecret?: string;
+  stsToken?: string;
+  /** 如果使用 SDK 实例，则直接传入 */
+  ossInstance?: any;
 }

@@ -16,6 +16,8 @@ import { watch, onMounted, onBeforeUnmount, nextTick, computed } from "vue";
 import { useEditor, EditorContent } from "@tiptap/vue-3";
 import StarterKit from "@tiptap/starter-kit";
 import Heading from "@tiptap/extension-heading";
+import Image from "@tiptap/extension-image";
+import DropCursor from "@tiptap/extension-dropcursor";
 // 可选：空内容占位提示
 // import Placeholder from "@tiptap/extension-placeholder";
 
@@ -71,9 +73,20 @@ const editor = useEditor({
   extensions: [
     StarterKit.configure({
       heading: false, // 禁用默认的 heading 扩展
+      dropcursor: false, // 禁用默认的 dropcursor 扩展，以解决重复注册警告
     }),
     Heading.configure({
       levels: [1, 2, 3, 4, 5, 6], // 根据文档明确支持所有的 h1-h6 标签
+    }),
+    Image.configure({
+      allowBase64: true,
+      HTMLAttributes: {
+        class: "max-w-full rounded-lg shadow-sm border border-gray-200 dark:border-gray-800 my-4",
+      },
+    }),
+    DropCursor.configure({
+      color: "#8b5cf6",
+      width: 2,
     }),
     // Placeholder.configure({ placeholder: "开始书写..." }), // 需要时取消注释
     ...props.extensions,

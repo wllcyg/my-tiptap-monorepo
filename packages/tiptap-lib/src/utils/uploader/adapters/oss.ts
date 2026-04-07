@@ -1,20 +1,4 @@
-import type { Uploader, UploaderOptions, UploadResult } from "../../../types/uploader";
-
-/**
- * 阿里云 OSS 配置
- */
-export interface OSSConfig {
-  /** Bucket 名称 */
-  bucket: string;
-  /** 地域，如 oss-cn-hangzhou */
-  region: string;
-  /** 访问域名 */
-  endpoint?: string;
-  /** 可选：前缀（目录） */
-  prefix?: string;
-  /** SDK 实例 */
-  ossInstance?: any;
-}
+import type { Uploader, UploaderOptions, UploadResult, OSSConfig } from "../../../types/uploader";
 
 /**
  * 阿里云 OSS 上传适配器
