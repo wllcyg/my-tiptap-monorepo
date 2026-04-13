@@ -2,9 +2,12 @@
 import TiptapEditor from './components/TiptapEditor.vue'
 import ColorHighlightPopover from './components/color-highlight-popover/ColorHighlightPopover.vue'
 import ColorHighlightPopoverContent from './components/color-highlight-popover/ColorHighlightPopoverContent.vue'
+import ColorTextPopover from './components/color-text-popover/ColorTextPopover.vue'
+import ColorTextPopoverContent from './components/color-text-popover/ColorTextPopoverContent.vue'
 
-export { TiptapEditor, ColorHighlightPopover, ColorHighlightPopoverContent }
+export { TiptapEditor, ColorHighlightPopover, ColorHighlightPopoverContent, ColorTextPopover, ColorTextPopoverContent }
 export { useColorHighlight } from './components/color-highlight-popover/useColorHighlight'
+export { useColorText } from './components/color-text-popover/useColorText'
 export default TiptapEditor
 
 // 导出图片上传扩展（基于 @tiptap/extension-file-handler）
@@ -23,3 +26,6 @@ export type {
   COSConfig,
   OSSConfig
 } from './types/uploader'
+
+// 导出工具栏配置
+export * from './types/toolbar'

@@ -63,11 +63,13 @@
     "vitest": "^3.0.5"
   },
   "dependencies": {
+    "@tiptap/extension-color": "^2.27.2",
     "@tiptap/extension-dropcursor": "^2.2.0",
     "@tiptap/extension-file-handler": "^2.27.2",
     "@tiptap/extension-heading": "^2.27.1",
     "@tiptap/extension-highlight": "^2.27.2",
     "@tiptap/extension-image": "^2.2.0",
+    "@tiptap/extension-text-style": "^2.27.1",
     "@vicons/ionicons5": "^0.13.0",
     "cos-js-sdk-v5": "^1.8.5"
   }

@@ -33,6 +33,7 @@ const CodeBlockButton = defineAsyncComponent(() => import("./buttons/CodeBlockBu
 const HorizontalRuleButton = defineAsyncComponent(() => import("./buttons/HorizontalRuleButton.vue"));
 const DividerButton = defineAsyncComponent(() => import("./buttons/DividerButton.vue"));
 const HighlightButton = defineAsyncComponent(() => import("./color-highlight-popover/ColorHighlightPopover.vue"));
+const ColorTextButton = defineAsyncComponent(() => import("./color-text-popover/ColorTextPopover.vue"));
 
 // h1-h6 工厂：为 HeadingButton 注入不同 level
 const createHeading = (level: 1 | 2 | 3 | 4 | 5 | 6) =>
@@ -61,6 +62,7 @@ const toolMapBase = {
   horizontalRule: HorizontalRuleButton,
   divider: DividerButton,
   highlight: HighlightButton,
+  color: ColorTextButton,
 } as const;
 
 // 关键：强制断言为完整映射，解决索引报错
