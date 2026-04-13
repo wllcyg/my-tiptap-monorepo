@@ -7,7 +7,7 @@
 
     "outDir": "dist",
     "rootDir": "src",
-    "types": ["node"],
+    "types": ["node", "vitest/globals"],
 
     "declaration": true, // 必须为 true（生成 .d.ts）
     "declarationMap": true,

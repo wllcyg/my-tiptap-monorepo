@@ -18,6 +18,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Heading from "@tiptap/extension-heading";
 import Image from "@tiptap/extension-image";
 import DropCursor from "@tiptap/extension-dropcursor";
+import Highlight from "@tiptap/extension-highlight";
 // 可选：空内容占位提示
 // import Placeholder from "@tiptap/extension-placeholder";
 
@@ -88,6 +89,7 @@ const editor = useEditor({
       color: "#8b5cf6",
       width: 2,
     }),
+    Highlight.configure({ multicolor: true }),
     // Placeholder.configure({ placeholder: "开始书写..." }), // 需要时取消注释
     ...props.extensions,
   ],

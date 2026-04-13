@@ -9,7 +9,7 @@ export function useActive(name: string, options?: any) {
     const editor = editorRef.value
     if (!editor) return
     
-    if (name === 'heading' || name === 'bulletList' || name === 'orderedList' || name === 'blockquote' || name === 'codeBlock') {
+    if (name === 'heading' || name === 'bulletList' || name === 'orderedList' || name === 'blockquote' || name === 'codeBlock' || name === 'highlight') {
       isActive.value = editor.isActive(name, options)
     } else {
       isActive.value = editor.isActive(name)

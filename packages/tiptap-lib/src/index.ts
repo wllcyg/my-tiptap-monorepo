@@ -1,6 +1,10 @@
 // 导出编辑器组件
 import TiptapEditor from './components/TiptapEditor.vue'
-export { TiptapEditor }
+import ColorHighlightPopover from './components/color-highlight-popover/ColorHighlightPopover.vue'
+import ColorHighlightPopoverContent from './components/color-highlight-popover/ColorHighlightPopoverContent.vue'
+
+export { TiptapEditor, ColorHighlightPopover, ColorHighlightPopoverContent }
+export { useColorHighlight } from './components/color-highlight-popover/useColorHighlight'
 export default TiptapEditor
 
 // 导出图片上传扩展（基于 @tiptap/extension-file-handler）

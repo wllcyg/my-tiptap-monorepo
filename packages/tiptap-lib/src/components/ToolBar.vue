@@ -14,23 +14,25 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineComponent, h } from "vue";
+import { computed, defineComponent, h, defineAsyncComponent } from "vue";
 import { NSpace } from "naive-ui";
 import type { ToolbarItemType } from "../types/toolbar";
 import { DEFAULT_TOOLS } from "../types/toolbar";
-// ==================== 导入按钮组件 ====================
-import UndoButton from "./buttons/UndoButton.vue";
-import RedoButton from "./buttons/RedoButton.vue";
-import BoldButton from "./buttons/BoldButton.vue";
-import ItalicButton from "./buttons/ItalicButton.vue";
-import ParagraphButton from "./buttons/ParagraphButton.vue";
-import HeadingButton from "./buttons/HeadingButton.vue";
-import BulletListButton from "./buttons/BulletListButton.vue";
-import OrderedListButton from "./buttons/OrderedListButton.vue";
-import BlockquoteButton from "./buttons/BlockquoteButton.vue";
-import CodeBlockButton from "./buttons/CodeBlockButton.vue";
-import HorizontalRuleButton from "./buttons/HorizontalRuleButton.vue";
-import DividerButton from "./buttons/DividerButton.vue";
+
+// ==================== 异步导入按钮组件 ====================
+const UndoButton = defineAsyncComponent(() => import("./buttons/UndoButton.vue"));
+const RedoButton = defineAsyncComponent(() => import("./buttons/RedoButton.vue"));
+const BoldButton = defineAsyncComponent(() => import("./buttons/BoldButton.vue"));
+const ItalicButton = defineAsyncComponent(() => import("./buttons/ItalicButton.vue"));
+const ParagraphButton = defineAsyncComponent(() => import("./buttons/ParagraphButton.vue"));
+const HeadingButton = defineAsyncComponent(() => import("./buttons/HeadingButton.vue"));
+const BulletListButton = defineAsyncComponent(() => import("./buttons/BulletListButton.vue"));
+const OrderedListButton = defineAsyncComponent(() => import("./buttons/OrderedListButton.vue"));
+const BlockquoteButton = defineAsyncComponent(() => import("./buttons/BlockquoteButton.vue"));
+const CodeBlockButton = defineAsyncComponent(() => import("./buttons/CodeBlockButton.vue"));
+const HorizontalRuleButton = defineAsyncComponent(() => import("./buttons/HorizontalRuleButton.vue"));
+const DividerButton = defineAsyncComponent(() => import("./buttons/DividerButton.vue"));
+const HighlightButton = defineAsyncComponent(() => import("./color-highlight-popover/ColorHighlightPopover.vue"));
 
 // h1-h6 工厂：为 HeadingButton 注入不同 level
 const createHeading = (level: 1 | 2 | 3 | 4 | 5 | 6) =>
@@ -58,6 +60,7 @@ const toolMapBase = {
   codeBlock: CodeBlockButton,
   horizontalRule: HorizontalRuleButton,
   divider: DividerButton,
+  highlight: HighlightButton,
 } as const;
 
 // 关键：强制断言为完整映射，解决索引报错

@@ -27,6 +27,7 @@ export type ToolbarItemType =
     | 'divider'   // 分隔线
     | 'image'
     | 'link'
+    | 'highlight'
 // 你可以随时在这里继续扩展新功能
 
 /**
@@ -39,6 +40,7 @@ export const DEFAULT_TOOLS: ToolbarItemType[] = [
     'divider',
     'bold',
     'italic',
+    'highlight',
     // 'underline', // StarterKit 不包含 underline，需单独引入 Underline 扩展
     // 'strike',
     'divider',
